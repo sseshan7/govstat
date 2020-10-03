@@ -33,6 +33,18 @@
         <div class="row three-panel">
             <div class="col-md votes">
                 <h1 class="section-header">Most Recent Congressional Votes</h1>
+
+                <div style="padding-right: 10ch">
+                  <form>
+                    <label for="start">Start Date:</label>
+                    <input type="date" id="start" name="range-start"
+                        min="2020-01-01" max="2020-12-31" style="padding-right: 10px">
+                    <label style="padding-left: 18ch" for="start">End Date:</label>
+                    <input type="date" id="start" name="range-start"
+                        min="2020-01-01" max="2020-12-31">
+                  </form action="/vote_query">
+                </div>
+
                 {% for v in vote_types %}
                     <div><h4>{{ dv[v] }}</h4></div>
                     {% for x in latest_votes[v] %}

@@ -185,4 +185,3 @@ def read_mysql_outlay_breakdown():
     for k in key_index_dict.keys():
         data_dict['full_names'][k] = key_index_dict[k][1]
     return data_dict
-
