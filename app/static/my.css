@@ -1,0 +1,96 @@
+h1 {
+    margin: 10px;
+}
+
+h1.section-header {
+    border-radius: 35px;
+    background: #004a80;
+    padding: 20px;
+    color: white;
+}
+
+a {
+    margin: 20px;
+}
+
+button {
+    margin: 20px;
+}
+
+h6.date {
+    margin: 20px;
+    border-radius: 6px;
+    background: #218838;
+    padding: 8px;
+    color: white;
+}
+
+div.date {
+    border-radius: 6px;
+    background: #5e1161;
+    padding: 8px;
+    color: white;
+}
+
+div.rep {
+    border-radius: 9px;
+    padding: 8px;
+    color: white;
+}
+
+div.D {
+    background: #004a80;
+}
+
+div.R {
+    background: #8c1d15;
+}
+
+/*
+span {
+    border-radius: 5px;
+    background: #004a80;
+    color: white;
+    padding: 3px;
+}
+*/
+
+div.three-panel {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+div.elections {
+    background-color: #ff7a88;
+}
+
+div.votes {
+    background-color: #fffcf9;
+}
+
+div.bills {
+    background-color: #b1d5e8;
+}
+
+div.data-options {
+    padding-left: 30px;
+}
+
+canvas {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+td.tally-cell {
+    width: 33.3%;
+}
+
+nav {
+    background-color: #b1ede8;
+}
+
+footer {
+    background-color: #6d435a;
+}
