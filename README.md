@@ -1,6 +1,6 @@
 # govstat
 
-Source code for GovStat.us website.
+Source code for [GovStat.us](https://govstat.us) website.
 Webserver is implemented using Flask on Python 2.7.
 
 ### Dependencies required: ###
