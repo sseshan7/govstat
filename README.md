@@ -15,21 +15,21 @@ Webserver is implemented using Flask on Python 2.7.
 - flask-wtf
 
 ### Webapp Entrypoint
-``gunicorn -b localhost:5000 -w 4 govstat:app``
-Host Name (localhost)
-Port Number (5000)
-Number of Threads/Handlers (4)
+``gunicorn -b localhost:5000 -w 4 govstat:app``  
+Host Name (localhost)  
+Port Number (5000)  
+Number of Threads/Handlers (4)  
 Flask app and entrypoint (govstat:app)
 
 ### Flask MySQL DB Creation and Migration
-flask db init
-flask db migrate -m "initial migration"
-flask db upgrade
+flask db init  
+flask db migrate -m "initial migration"  
+flask db upgrade  
 
 ### Gunicorn, NGINX, and Supervisor configuration
-See above to run gunicorn.
-Specify NGINX port permissions, and forwarding for HTTP and HTTPS requests at `/etc/nginx/sites-enabled/`
-Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`
+See above to run gunicorn.  
+Specify NGINX port permissions, and forwarding for HTTP and HTTPS requests at `/etc/nginx/sites-enabled/`  
+Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`  
 
 ### Directory Structure
 
