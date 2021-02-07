@@ -36,74 +36,74 @@ Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`
 .
 _congress/_
 +--	govstat/
-|	+-- app/
-|		+--	Bills.py
-|		+-- Budget.py
-|		+-- config.py
-|		+-- \_\_init.py\_\_		[App instantiation, database instantiation, import functions for data loading and retrieval.]
-|		+-- models.py
-|		+-- routes.py
-|		+--	Votes.py
-|		+-- static/
-|		+-- templates/
-|	+-- govstat.py
-|	+-- setup.py
-|	+-- bill_loader.py
-|	+--	vote_loader.py
+    +-- app/
+        +--	Bills.py
+        +-- Budget.py
+        +-- config.py
+        +-- \_\_init.py\_\_		[App instantiation, database instantiation, import functions for data loading and retrieval.]
+        +-- models.py
+        +-- routes.py
+        +--	Votes.py
+        +-- static/
+        +-- templates/
+    +-- govstat.py
+    +-- setup.py
+    +-- bill_loader.py
+    +--	vote_loader.py
 +--	data/
-|   +-- 116/
-|		+-- amendments/
-|			+-- hamdt/ [House Amendments]
-|				+-- hamdtN/
-|					+-- [JSON and XML files]
-|			+-- samdt/ [Senate Amendments]
-|				+-- samdtN/
-|					+-- [JSON and XML files]
-|		+-- bills/
-|			+-- hconres/
-|				+-- hconresN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- hjres/
-|				+-- hjresN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- hr
-|				+-- hrN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- hres/
-|				+-- hresN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- s/
-|				+-- sN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- sconres/
-|				+-- sconresN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- sjres/
-|				+-- sjresN/
-|					+-- [XML files. After processing, JSON files]
-|			+-- sres/
-|				+-- sresN/
-|					+-- [XML files. After processing, JSON files]
-|		+-- votes/
-|			+-- 2020/
-|				+-- hN/
-|					+-- [JSON and XML files]
-|				+-- sN/
-|					+-- [JSON and XML files]
-|			+-- 2021/ [One directory per year]
-|	+-- 117/ ... [One directory per congress session number]
-|	+--	hist_fy21/ [Historical data through 2021 from Office of Management and Budget (OMB)]
-|		+-- [51 XLSX files containing data].
-|	+-- supplemental/
-|		+-- [XLSX files containing supplemental budget data]
-|	+--	upcoming_house_floor/
-|		+-- [JSON files per week containing bill activities that week]
+    +-- 116/
+        +-- amendments/
+            +-- hamdt/ [House Amendments]
+                +-- hamdtN/
+                    +-- [JSON and XML files]
+            +-- samdt/ [Senate Amendments]
+                +-- samdtN/
+                    +-- [JSON and XML files]
+        +-- bills/
+            +-- hconres/
+                +-- hconresN/
+                    +-- [XML files. After processing, JSON files]
+            +-- hjres/
+                +-- hjresN/
+                    +-- [XML files. After processing, JSON files]
+            +-- hr
+                +-- hrN/
+                    +-- [XML files. After processing, JSON files]
+            +-- hres/
+                +-- hresN/
+                    +-- [XML files. After processing, JSON files]
+            +-- s/
+                +-- sN/
+                    +-- [XML files. After processing, JSON files]
+            +-- sconres/
+                +-- sconresN/
+                    +-- [XML files. After processing, JSON files]
+            +-- sjres/
+                +-- sjresN/
+                    +-- [XML files. After processing, JSON files]
+            +-- sres/
+                +-- sresN/
+                    +-- [XML files. After processing, JSON files]
+        +-- votes/
+            +-- 2020/
+                +-- hN/
+                    +-- [JSON and XML files]
+                +-- sN/
+                    +-- [JSON and XML files]
+                +-- 2021/ [One directory per year]
+    +-- 117/ ... [One directory per congress session number]
+    +--	hist_fy21/ [Historical data through 2021 from Office of Management and Budget (OMB)]
+        +-- [51 XLSX files containing data].
+    +-- supplemental/
+        +-- [XLSX files containing supplemental budget data]
+    +--	upcoming_house_floor/
+        +-- [JSON files per week containing bill activities that week]
 +-- tasks/
-|   +-- [PY files for each type of data that can be scraped and delivered]
-	+--	[amendments, bills, committees, govinfo, nominations, votes, upcoming, etc.]
+    +-- [PY files for each type of data that can be scraped and delivered]
+    +--	[amendments, bills, committees, govinfo, nominations, votes, upcoming, etc.]
 +-- scripts/
-|   +-- [SH scripts to transform raw JSON and XML data into forms usable for govtrack and other utilities.]
+    +-- [SH scripts to transform raw JSON and XML data into forms usable for govtrack and other utilities.]
 +-- cache/
 +-- test/
-|	+-- [Test scripts, not exhaustive]
+    +-- [Test scripts, not exhaustive]
 +-- contrib/
