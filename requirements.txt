@@ -1,0 +1,10 @@
+gunicorn
+xlrd
+pandas
+numpy
+requests
+flask
+flask-sqlalchemy
+pymysql
+flask-migrate
+flask-wtf
