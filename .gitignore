@@ -62,6 +62,4 @@ docs/_build/
 # db stuff
 migrations/
 app/config.py
-vote_loader.py
-bill_loader.py
 hist_fy21/
