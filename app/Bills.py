@@ -37,8 +37,8 @@ class Bills:
                 intro_date = jsondata['introduced_at']
                 intro_date = datetime.strptime(intro_date, '%Y-%m-%d').date()
 
-		# data variable reassigned FROM json TO XML tree
-		xmldata = ET.parse(os.path.join(type_path, dir_name, XML_FILE)).getroot()
+                # data variable reassigned FROM json TO XML tree
+                xmldata = ET.parse(os.path.join(type_path, dir_name, XML_FILE)).getroot()
 
                 if last_mod_flag:
                     # check from one of the two last-modified files
@@ -125,10 +125,10 @@ class Bills:
         intro_date = jsondata['introduced_at']
         intro_date = datetime.strptime(intro_date, '%Y-%m-%d').date()
 
-	bill_q = Bill.query.filter(Bill.bill_type == bill_type) \
-	    .filter(Bill.bill_num == num) \
-	    .filter(Bill.congress == cong)
-	bills = bill_q.all()
+        bill_q = Bill.query.filter(Bill.bill_type == bill_type) \
+            .filter(Bill.bill_num == num) \
+            .filter(Bill.congress == cong)
+        bills = bill_q.all()
 
         if len(bills) > 0:
             # if the bill has been instantiated,
