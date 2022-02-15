@@ -3,14 +3,15 @@ import json
 import requests
 import datetime
 from flask import render_template, jsonify, request
+
+from app import CONGRESS_PATH
 from app.Votes import Votes
 from app.Bills import Bills
-from app import Budget
+import app.Budget as Budget
 from app import app
 
 # globals
-CWD = os.path.dirname(os.path.abspath('__file__'))
-BILLS_PATH = os.path.join(CWD, '..', '..', 'congress', 'data', '116', 'bills')
+BILLS_PATH = os.path.join(CONGRESS_PATH, 'data', '116', 'bills')
 JSON_NAME = 'data.json'
 
 # BILLS SCRAPER
