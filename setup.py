@@ -21,7 +21,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'webapp = app',
+            'govstat = app',
         ],
     },
 )
