@@ -13,15 +13,11 @@ setup(
         "flask_migrate",
         "flask_sqlalchemy",
         "flask_wtf",
+        "gunicorn",
         "numpy",
         "pandas",
         "pymysql",
         "requests",
         "xlrd",
     ],
-    entry_points={
-        'console_scripts': [
-            'govstat = app',
-        ],
-    },
 )
