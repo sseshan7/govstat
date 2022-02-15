@@ -2,12 +2,12 @@ import os
 import pandas as pd
 import numpy as np
 
+import app
 from app import db
 from app.models import DeficitSurplus, ReceiptBreakdown, OutlayBreakdown
 
 # globals
-CWD = os.path.dirname(os.path.abspath('__file__'))
-EXCEL_DIR = os.path.join(CWD, '..', 'data', 'hist_fy21')
+EXCEL_DIR = os.path.join(app.CONGRESS_PATH, 'data', 'hist_fy21')
 BUDGET_1 = 'hist01z1.xlsx'
 BUDGET_2 = 'hist02z1.xlsx'
 BUDGET_3 = 'hist03z1.xlsx'

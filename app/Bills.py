@@ -4,11 +4,11 @@ from datetime import datetime
 import xml.etree.cElementTree as ET
 from sqlalchemy import func
 
+import app
 from app import db
 from app.models import Vote, Bill, BillType, Representative, LegislativeSubjects, BillStatus
 
-CWD = os.path.dirname(os.path.abspath('__file__'))
-BILLS_PATH = os.path.join(CWD, '..', '..', 'congress', 'data', '116', 'bills')
+BILLS_PATH = os.path.join(app.CONGRESS_PATH, 'data', '116', 'bills')
 XML_FILE = 'fdsys_billstatus.xml'
 JSON_FILE = 'data.json'
 LAST_MOD_FILE1 = 'data-fromfdsys-lastmod.txt'
