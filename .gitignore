@@ -61,5 +61,5 @@ docs/_build/
 
 # db stuff
 migrations/
-app/cfg/
+app/cfg/config.json
 hist_fy21/
