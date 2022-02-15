@@ -32,6 +32,7 @@ flask db upgrade
 See above to run gunicorn.\
 Specify NGINX port permissions, and forwarding for HTTP and HTTPS requests at `/etc/nginx/sites-enabled/`\
 Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`
+Create SSL certificates
 
 ### Directory Structure
 
