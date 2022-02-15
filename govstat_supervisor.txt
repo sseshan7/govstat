@@ -1,7 +1,7 @@
 [program:govstatus]
-command=/home/shriv/anaconda3/envs/congress_py27/bin/gunicorn -b localhost:5000 -w 4 govstat:app
-directory=/home/shriv/projects/congress/govstat/
-user=shriv
+command=/home/user/anaconda3/envs/envname/bin/gunicorn -b localhost:5000 -w 4 govstat:app
+directory=/path/to/govstat/
+user=user
 autostart=true
 stopasgroup=true
 killasgroup=true
