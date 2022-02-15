@@ -61,5 +61,5 @@ docs/_build/
 
 # db stuff
 migrations/
-app/config.py
+app/cfg/
 hist_fy21/
