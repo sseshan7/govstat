@@ -4,32 +4,38 @@ from app import db
 # Many-Many Helper Tables #
 ###########################
 
-yea_votes = db.Table('yea_votes',
+yea_votes = db.Table(
+    'yea_votes',
     db.Column('vote_id', db.Integer, db.ForeignKey('vote.id')),
     db.Column('rep_id', db.Integer, db.ForeignKey('representative.id'))
 )
 
-nay_votes = db.Table('nay_votes',
+nay_votes = db.Table(
+    'nay_votes',
     db.Column('vote_id', db.Integer, db.ForeignKey('vote.id')),
     db.Column('rep_id', db.Integer, db.ForeignKey('representative.id'))
 )
 
-not_votes = db.Table('not_votes',
+not_votes = db.Table(
+    'not_votes',
     db.Column('vote_id', db.Integer, db.ForeignKey('vote.id')),
     db.Column('rep_id', db.Integer, db.ForeignKey('representative.id'))
 )
 
-cosponsor_bills = db.Table('cosponsor_bills',
+cosponsor_bills = db.Table(
+    'cosponsor_bills',
     db.Column('bill_id', db.Integer, db.ForeignKey('bill.id')),
     db.Column('rep_id', db.Integer, db.ForeignKey('representative.id'))
 )
 
-bill_subjects = db.Table('bill_subjects',
+bill_subjects = db.Table(
+    'bill_subjects',
     db.Column('bill_id', db.Integer, db.ForeignKey('bill.id')),
     db.Column('subject_id', db.Integer, db.ForeignKey('legislative_subjects.id'))
 )
 
-bill_to_bills = db.Table('bill_to_bills',
+bill_to_bills = db.Table(
+    'bill_to_bills',
     db.Column('parent_bill_id', db.Integer, db.ForeignKey('bill.id')),
     db.Column('related_bill_id', db.Integer, db.ForeignKey('bill.id'))
 )
@@ -105,12 +111,18 @@ class Bill(db.Model):
     votes = db.relationship('Vote', backref='bill')
 
     # Many-Many Relationships
-    cosponsors = db.relationship('Representative', secondary=cosponsor_bills, backref='bills_cosponsored')
-    related_bills = db.relationship('Bill',
+    cosponsors = db.relationship(
+        'Representative',
+        secondary=cosponsor_bills,
+        backref='bills_cosponsored'
+    )
+    related_bills = db.relationship(
+        'Bill',
         secondary=bill_to_bills,
         primaryjoin='Bill.id==bill_to_bills.c.related_bill_id',
         secondaryjoin='Bill.id==bill_to_bills.c.parent_bill_id',
-        backref='parent_bills')
+        backref='parent_bills'
+    )
     leg_subjects = db.relationship('LegislativeSubjects', secondary=bill_subjects, backref='bills')
 
     def __repr__(self):

@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import numpy as np
 
 import app
 from app import db
@@ -146,7 +145,7 @@ def read_mysql_receipt_breakdown():
 
 def load_mysql_outlay_breakdown():
     dataxls = pd.read_excel(os.path.join(EXCEL_DIR, BUDGET_3), index_col=None)
-    num_cols = len(dataxls.iloc[0,:])
+    num_cols = len(dataxls.iloc[0, :])
 
     for n in range(1, num_cols):
         d = OutlayBreakdown()
@@ -158,13 +157,13 @@ def load_mysql_outlay_breakdown():
             print(col)
             print()
             continue
-        for k in key_index_dict.keys():
+        for k in key_index_dict:
             # iterate over keys, get value in dataframe, insert into model object
             try:
-                setattr(d, k, int( col[key_index_dict[k][0]] ))
+                setattr(d, k, int(col[key_index_dict[k][0]]))
             except ValueError:
                 try:
-                    setattr(d, k, float( col[key_index_dict[k][0]] ))
+                    setattr(d, k, float(col[key_index_dict[k][0]]))
                 except ValueError:
                     setattr(d, k, 0)
 
@@ -177,12 +176,12 @@ def read_mysql_outlay_breakdown():
     data_query = db.session.query(OutlayBreakdown.year).order_by(OutlayBreakdown.year)
     data_dict['years'] = [x[0] for x in data_query.all()]
 
-    for k in key_index_dict.keys():
+    for k in key_index_dict:
         data_query = db.session.query(getattr(OutlayBreakdown, k)).order_by(OutlayBreakdown.year)
         data_dict[k] = [x[0] for x in data_query.all()]
 
     data_dict['full_names'] = {}
-    for k in key_index_dict.keys():
+    for k in key_index_dict:
         data_dict['full_names'][k] = key_index_dict[k][1]
     return data_dict
 

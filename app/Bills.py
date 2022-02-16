@@ -6,12 +6,12 @@ from sqlalchemy import func
 
 import app
 from app import db
-from app.models import Vote, Bill, BillType, Representative, LegislativeSubjects, BillStatus
+from app.models import Bill, BillType, Representative, LegislativeSubjects, BillStatus
 
 
 BILLS_PATH = os.path.join(app.CONGRESS_PATH, "data")
-latest_session = sorted([x for x in os.listdir(BILLS_PATH) if x.isdigit()])[-1]
-BILLS_PATH = os.path.join(BILLS_PATH, latest_session, 'bills')
+LATEST_SESSION = sorted([x for x in os.listdir(BILLS_PATH) if x.isdigit()])[-1]
+BILLS_PATH = os.path.join(BILLS_PATH, LATEST_SESSION, 'bills')
 XML_FILE = 'fdsys_billstatus.xml'
 JSON_FILE = 'data.json'
 LAST_MOD_FILE1 = 'data-fromfdsys-lastmod.txt'
@@ -35,7 +35,7 @@ class Bills:
                     with open(os.path.join(type_path, dir_name, JSON_FILE), 'r') as f:
                         jsondata = json.load(f)
                 except IOError:
-                    print("{}: {}".format(latest_session, dir_name))
+                    print("{}: {}".format(LATEST_SESSION, dir_name))
                     continue
 
                 cong = jsondata['congress']
@@ -70,7 +70,7 @@ class Bills:
                             .filter(Bill.bill_num == num) \
                             .filter(Bill.congress == cong)
                         bills = bill_q.all()
-                        if len(bills) == 0:
+                        if not bills:
                             # bill does not exist, call the fully_populate function
                             Bills.fully_populate_bill(jsondata, xmldata, num, db_bill_type)
                         else:
@@ -91,16 +91,19 @@ class Bills:
         d = {}
 
         # store the most recent bill introduced OF EACH TYPE
-        recent_date_by_type = {}
         for bill_type_abbr in BillType.types:
             bill_type = getattr(BillType, bill_type_abbr.upper()) # bill_types starts counting at 1
-            introduced_ordered_q = Bill.query.filter(Bill.bill_type == bill_type).order_by(Bill.introduced_date.desc())
+            introduced_ordered_q = Bill.query.filter(
+                Bill.bill_type == bill_type
+            ).order_by(Bill.introduced_date.desc())
             max_intro_date = introduced_ordered_q.first().introduced_date.date()
             if current_date > max_intro_date:
                 date_to_query = max_intro_date
             else:
                 date_to_query = current_date
-            type_bills_inrange = introduced_ordered_q.filter(Bill.introduced_date == date_to_query).all()
+            type_bills_inrange = introduced_ordered_q.filter(
+                Bill.introduced_date == date_to_query
+            ).all()
             d[bill_type_abbr] = type_bills_inrange
         return d
 
@@ -108,8 +111,8 @@ class Bills:
     @classmethod
     def fully_populate_bill(cls, jsondata, xmldata, bill_num, bill_type):
         # idempotent function, will not corrupt if called even if bill is fully populated
-        if jsondata['short_title'] == None:
-            if jsondata['popular_title'] == None:
+        if jsondata['short_title'] is None:
+            if jsondata['popular_title'] is None:
                 title = jsondata['official_title']
             else:
                 title = jsondata['popular_title']
@@ -136,7 +139,7 @@ class Bills:
             .filter(Bill.congress == cong)
         bills = bill_q.all()
 
-        if len(bills) > 0:
+        if bills:
             # if the bill has been instantiated,
             # check if bill has been fully populated
             bill = bills[0]
@@ -156,7 +159,9 @@ class Bills:
             # if bill has NOT been instantiated,
             # create instantiation and add to db
             populated = False
-            bill = Bill(title=title, congress=cong,
+            bill = Bill(
+                title=title,
+                congress=cong,
                 bill_type=bill_type,
                 bill_num=num,
                 introduced_date=intro_date,
@@ -164,7 +169,8 @@ class Bills:
                 active=active,
                 awaiting_sig=sig,
                 enacted=enact,
-                vetoed=veto)
+                vetoed=veto,
+            )
             db.session.add(bill)
 
         # delete old statuses
@@ -190,7 +196,9 @@ class Bills:
             # set and link legislative subjects
             subjects = jsondata['subjects']
             for subj in subjects:
-                subj_q = LegislativeSubjects.query.filter(func.lower(LegislativeSubjects.subject) == subj.lower())
+                subj_q = LegislativeSubjects.query.filter(
+                    func.lower(LegislativeSubjects.subject) == subj.lower()
+                )
                 loaded_subjects = subj_q.all()
                 if loaded_subjects:
                     for sub in loaded_subjects:
@@ -221,7 +229,7 @@ class Bills:
                     .filter(func.lower(Representative.lname) == lname.lower())
             reps = rep_q.all()
 
-            if len(reps) > 0:
+            if reps:
                 # representative exists in the database
                 # add them as a sponsor to this bill.
                 rep = reps[0]
@@ -261,7 +269,7 @@ class Bills:
                     .filter(Representative.party == party) \
                     .filter(func.lower(Representative.lname) == lname.lower())
             reps = rep_q.all()
-            if len(reps) > 0:
+            if reps:
                 # representative exists in the database
                 # add them as a cosponsor to this bill.
                 rep = reps[0]
@@ -332,7 +340,7 @@ class Bills:
                     .filter(Representative.party == party) \
                     .filter(func.lower(Representative.lname) == lname.lower())
             reps = rep_q.all()
-            if len(reps) > 0:
+            if reps:
                 # representative exists in the database
                 # add them as a cosponsor to this bill.
                 rep = reps[0]

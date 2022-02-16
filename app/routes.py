@@ -1,6 +1,4 @@
 import os
-import json
-import requests
 import datetime
 from flask import render_template, jsonify, request
 
@@ -29,12 +27,13 @@ d['sjres'] = 'Senate Joint Resolution'
 
 @app.route('/budget_data')
 def transmit_data():
-    if request.args['id'] == '1':
-        return jsonify(Budget.read_mysql_deficit_surplus())
-    elif request.args['id'] == '2':
-        return jsonify(Budget.read_mysql_receipt_breakdown())
-    elif request.args['id'] == '3':
-        return jsonify(Budget.read_mysql_outlay_breakdown())
+    match request.args['id']:
+        case '1':
+            return jsonify(Budget.read_mysql_deficit_surplus())
+        case '2':
+            return jsonify(Budget.read_mysql_receipt_breakdown())
+        case '3':
+            return jsonify(Budget.read_mysql_outlay_breakdown())
 
 
 @app.route('/budget')
@@ -47,6 +46,12 @@ def index():
     latest_votes = Votes.return_sql_json_by_date(datetime.datetime.now() - datetime.timedelta(4, 0, 0))
     latest_bills = Bills.return_sql_json_by_date(datetime.datetime.now() - datetime.timedelta(4, 0, 0))
 
-    return render_template('index_votes.html', vote_types=Votes.vote_types, dv=Votes.dv,
-        latest_votes=latest_votes, bill_types=bill_types, d=d,
-        latest_bills=latest_bills)
+    return render_template(
+        'index_votes.html',
+        vote_types=Votes.vote_types,
+        dv=Votes.dv,
+        latest_votes=latest_votes,
+        bill_types=bill_types,
+        d=d,
+        latest_bills=latest_bills
+    )

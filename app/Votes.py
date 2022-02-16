@@ -7,10 +7,10 @@ from app import db
 from app.models import Vote, Bill, BillType, Representative
 
 VOTES_PATH = os.path.join(app.CONGRESS_PATH, "data")
-latest_session = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
-VOTES_PATH = os.path.join(VOTES_PATH, latest_session, "votes")
-latest_year = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
-VOTES_PATH = os.path.join(VOTES_PATH, latest_year)
+LATEST_SESSION = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
+VOTES_PATH = os.path.join(VOTES_PATH, LATEST_SESSION, "votes")
+LATEST_YEAR = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
+VOTES_PATH = os.path.join(VOTES_PATH, LATEST_YEAR)
 JSON_FILE = 'data.json'
 
 
@@ -32,7 +32,7 @@ class Votes:
             n = data['number']
 
             entries = Vote.query.filter(Vote.vote_num == n).filter(Vote.chamber == c).all()
-            if len(entries) > 0:
+            if entries:
                 # If vote already exists in the database, skip adding it
                 continue
 
@@ -83,16 +83,16 @@ class Votes:
                 # link the appropriate rep with this yea vote.
                 # create the rep if bioguide not in the database
                 if c == 'h':
-                    rep_q = Representative.query.filter(Representative.bioguide_id==rep_data['id'])
+                    rep_q = Representative.query.filter(Representative.bioguide_id == rep_data['id'])
                 else:
                     try:
-                        rep_q = Representative.query.filter(Representative.lis_id==rep_data['id'])
+                        rep_q = Representative.query.filter(Representative.lis_id == rep_data['id'])
                     except TypeError:
                         print("{}{}".format(c, n))
                         print(rep_data)
                         continue
                 reps = rep_q.all()
-                if len(reps) > 0:
+                if reps:
                     # the rep exists in the database
                     # link that rep with this yea vote
                     r = reps[0]
@@ -116,11 +116,11 @@ class Votes:
                 # link the appropriate rep with this nay vote.
                 # create the rep if bioguide not in the database
                 if c == 'h':
-                    rep_q = Representative.query.filter(Representative.bioguide_id==rep_data['id'])
+                    rep_q = Representative.query.filter(Representative.bioguide_id == rep_data['id'])
                 else:
-                    rep_q = Representative.query.filter(Representative.lis_id==rep_data['id'])
+                    rep_q = Representative.query.filter(Representative.lis_id == rep_data['id'])
                 reps = rep_q.all()
-                if len(reps) > 0:
+                if reps:
                     # the rep exists in the database
                     # link that rep with this yea vote
                     r = reps[0]
@@ -144,11 +144,11 @@ class Votes:
                 # link the appropriate rep with this not vote.
                 # create the rep if bioguide not in the database
                 if c == 'h':
-                    rep_q = Representative.query.filter(Representative.bioguide_id==rep_data['id'])
+                    rep_q = Representative.query.filter(Representative.bioguide_id == rep_data['id'])
                 else:
-                    rep_q = Representative.query.filter(Representative.lis_id==rep_data['id'])
+                    rep_q = Representative.query.filter(Representative.lis_id == rep_data['id'])
                 reps = rep_q.all()
-                if len(reps) > 0:
+                if reps:
                     # the rep exists in the database
                     # link that rep with this yea vote
                     r = reps[0]
@@ -178,12 +178,14 @@ class Votes:
                     # if bill being voted on exists in the database (TYPE, NUM, CONGRESS),
                     # then link the bill to this vote
                     v.bill = bills[0]
-                elif len(bills) == 0:
+                elif not bills:
                     # if there is no matching bill in database (TYPE, NUM, CONGRESS),
                     # then create the bill, and link to this vote
-                    ad_hoc_bill = Bill(congress=bill['congress'],
+                    ad_hoc_bill = Bill(
+                        congress=bill['congress'],
                         bill_type=getattr(BillType, bill['type'].upper()),
-                        bill_num=bill['number'])
+                        bill_num=bill['number'],
+                    )
                     v.bill = ad_hoc_bill
             except KeyError:
                 # The vote is not related to any bill
@@ -199,13 +201,15 @@ class Votes:
         date_to_query = current_date
         d = {}
 
-        ordered_dates = db.session.query(Vote.vote_num,
+        ordered_dates = db.session.query(
+            Vote.vote_num,
             Vote.question,
             Vote.vote_result,
             Vote.num_yeas,
             Vote.num_nays,
             Vote.num_abstains,
-            Vote.date).order_by(Vote.date.desc())
+            Vote.date,
+        ).order_by(Vote.date.desc())
 
         senate_ordered = ordered_dates.filter(Vote.chamber == 's')
         senate_max_date = senate_ordered.first()[-1].date()
