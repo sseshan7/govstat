@@ -6,8 +6,12 @@ import app
 from app import db
 from app.models import Vote, Bill, BillType, Representative
 
-VOTES_PATH = os.path.join(app.CONGRESS_PATH, 'data', '116', 'votes', '2020')
-JSON_NAME = 'data.json'
+VOTES_PATH = os.path.join(app.CONGRESS_PATH, "data")
+latest_session = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
+VOTES_PATH = os.path.join(VOTES_PATH, latest_session, "votes")
+latest_year = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
+VOTES_PATH = os.path.join(VOTES_PATH, latest_year)
+JSON_FILE = 'data.json'
 
 
 class Votes:
@@ -21,7 +25,7 @@ class Votes:
     def load_votes_into_mysql(cls):
         """Read all json data saved, and push it into mysql db"""
         for dir_name in os.listdir(VOTES_PATH):
-            with open(os.path.join(VOTES_PATH, dir_name, JSON_NAME), 'r') as f:
+            with open(os.path.join(VOTES_PATH, dir_name, JSON_FILE), 'r') as f:
                 data = json.load(f)
 
             c = data['chamber']
@@ -81,7 +85,12 @@ class Votes:
                 if c == 'h':
                     rep_q = Representative.query.filter(Representative.bioguide_id==rep_data['id'])
                 else:
-                    rep_q = Representative.query.filter(Representative.lis_id==rep_data['id'])
+                    try:
+                        rep_q = Representative.query.filter(Representative.lis_id==rep_data['id'])
+                    except TypeError:
+                        print("{}{}".format(c, n))
+                        print(rep_data)
+                        continue
                 reps = rep_q.all()
                 if len(reps) > 0:
                     # the rep exists in the database

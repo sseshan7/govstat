@@ -8,7 +8,10 @@ import app
 from app import db
 from app.models import Vote, Bill, BillType, Representative, LegislativeSubjects, BillStatus
 
-BILLS_PATH = os.path.join(app.CONGRESS_PATH, 'data', '116', 'bills')
+
+BILLS_PATH = os.path.join(app.CONGRESS_PATH, "data")
+latest_session = sorted([x for x in os.listdir(BILLS_PATH) if x.isdigit()])[-1]
+BILLS_PATH = os.path.join(BILLS_PATH, latest_session, 'bills')
 XML_FILE = 'fdsys_billstatus.xml'
 JSON_FILE = 'data.json'
 LAST_MOD_FILE1 = 'data-fromfdsys-lastmod.txt'
@@ -28,9 +31,12 @@ class Bills:
 
             for dir_name in os.listdir(type_path):
                 # iterating over bills (one bill per directory inside type_path)
-
-                with open(os.path.join(type_path, dir_name, JSON_FILE), 'r') as f:
-                    jsondata = json.load(f)
+                try:
+                    with open(os.path.join(type_path, dir_name, JSON_FILE), 'r') as f:
+                        jsondata = json.load(f)
+                except IOError:
+                    print("{}: {}".format(latest_session, dir_name))
+                    continue
 
                 cong = jsondata['congress']
                 num = jsondata['number']
