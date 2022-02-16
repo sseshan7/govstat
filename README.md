@@ -1,7 +1,10 @@
 # govstat
 
 Source code for [GovStat.us](https://govstat.us) website.
-Webserver is implemented using Flask on Python 2.7.
+
+Webserver is implemented using Flask on Python 3.10.
+
+Install locally using `pip install .`
 
 ### Dependencies required: ###
 - gunicorn
