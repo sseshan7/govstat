@@ -1,13 +1,13 @@
 from setuptools import setup
 
 setup(
-    name='govstat',
-    version='0.0.1',
-    author='stevesdawg',
-    long_description='',
-    description='',
+    name="govstat",
+    version="0.0.1",
+    author="stevesdawg",
+    long_description="",
+    description="",
     zip_safe=False,
-    packages=['app'],
+    packages=["app"],
     install_requires=[
         "flask",
         "flask_migrate",
