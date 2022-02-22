@@ -16,6 +16,7 @@ Install locally using `pip install .`
 - pymysql
 - flask-migrate
 - flask-wtf
+- [git-lfs](https://git-lfs.github.com/)
 
 ### Webapp Entrypoint
 ``gunicorn -b localhost:5000 -w 4 govstat:app``\
@@ -36,6 +37,11 @@ See above to run gunicorn.\
 Specify NGINX port permissions, and forwarding for HTTP and HTTPS requests at `/etc/nginx/sites-enabled/`\
 Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`
 Create SSL certificates
+
+### Data sources
+Some notes on where the data for this webapp comes from.\
+Congress data on bills and votes comes from scrapers in the [congress repo](https://github.com/unitedstates/congress)\
+Budget data comes from excel files published by the White House [Office of Management and Budget (OMB)](https://www.whitehouse.gov/omb/historical-tables/)\
 
 ### Directory Structure
 
