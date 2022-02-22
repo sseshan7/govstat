@@ -7,7 +7,7 @@ from app import db
 from app.models import DeficitSurplus, OutlayBreakdown, ReceiptBreakdown
 
 # globals
-EXCEL_DIR = os.path.join(app.CONGRESS_PATH, "data", "hist_fy21")
+EXCEL_DIR = os.path.join(app.GOVSTAT_PATH, "data", "hist_fy21")
 BUDGET_1 = "hist01z1.xlsx"
 BUDGET_2 = "hist02z1.xlsx"
 BUDGET_3 = "hist03z1.xlsx"
