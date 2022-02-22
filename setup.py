@@ -20,4 +20,7 @@ setup(
         "requests",
         "xlrd",
     ],
+    extras_require={
+        "dev": ["pre-commit"],
+    },
 )
