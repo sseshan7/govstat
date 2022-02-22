@@ -1,9 +1,8 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 from . import config
-
 
 app = Flask(__name__)
 app.config.from_object(config.DefaultConfig)
@@ -19,4 +18,4 @@ GOVSTAT_PATH = app.config.get("GOVSTAT_PATH")
 if GOVSTAT_PATH is None:
     raise RuntimeError("GOVSTAT_PATH not set in cfg/config.json")
 
-from app import routes, models
+from app import models, routes
