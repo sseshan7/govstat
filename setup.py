@@ -9,6 +9,7 @@ setup(
     zip_safe=False,
     packages=["app"],
     install_requires=[
+        "cryptography",
         "flask",
         "flask_migrate",
         "flask_sqlalchemy",
