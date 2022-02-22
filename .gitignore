@@ -3,7 +3,6 @@
 /certs
 /virt
 /cache
-/data
 /config.yml
 .DS_Store
 /todo*
@@ -62,4 +61,3 @@ docs/_build/
 # db stuff
 migrations/
 app/cfg/config.json
-hist_fy21/
