@@ -15,6 +15,7 @@ setup(
         "flask_wtf",
         "gunicorn",
         "numpy",
+        "openpyxl",
         "pandas",
         "pymysql",
         "requests",
