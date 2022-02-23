@@ -2,48 +2,98 @@
 
 Source code for [GovStat.us](https://govstat.us) website.
 
+![start\_page](https://user-images.githubusercontent.com/17132214/155255795-bf69314d-6f99-4750-af46-6c8b9693b3e0.png)
+![budget](https://user-images.githubusercontent.com/17132214/155255799-56d17524-f30a-4681-82de-31f8369449b9.png)
+
 Webserver is implemented using Flask on Python 3.10.
 
 Install locally using `pip install .`
 
-### Dependencies required: ###
-- gunicorn
-- xlrd
-- pandas
-- numpy
-- flask
-- flask-sqlalchemy
-- pymysql
-- flask-migrate
-- flask-wtf
+## Dependencies:
+
+- [python](https://www.python.org/downloads/)
 - [git-lfs](https://git-lfs.github.com/)
+- A MySQL server
+  - e.g. [MariaDB](https://mariadb.org/download)
 
-### Webapp Entrypoint
-``gunicorn -b localhost:5000 -w 4 govstat:app``\
-Host Name (localhost)\
-Port Number (5000)\
-Number of Threads/Handlers (4)\
-Flask app and entrypoint (govstat:app)
+Python dependencies will be pulled in automatically by `pip`.
 
-### Flask MySQL DB Creation and Migration
+## Data Sources
+Some notes on where the data for this webapp comes from.
+Congress data on bills and votes comes from scrapers in the
+[unitedstates/congress](https://github.com/unitedstates/congress) repo.
+Budget data comes from excel files published by the White House
+[Office of Management and Budget (OMB)](https://www.whitehouse.gov/omb/historical-tables/).
+
+To obtain congress data, do the following:
+
+From the root of this repo, run:
+```bash
+usc-run votes --congress=XXX --session=YYYY --force=True
+usc-run govinfo --bulkdata=BILLSTATUS --congress=XXX
+usc-run bills
 ```
+where `XXX` is the Congress number, and `YYYY` is the session number.
+
+For example,
+```bash
+usc-run votes --congress=117 --session=2022 --force=True
+usc-run govinfo --bulkdata=BILLSTATUS --congress=117
+usc-run bills
+```
+
+Budget data is carried in this repo via `git-lfs`.
+
+## Flask MySQL DB Creation
+
+### Start a MySQL Server.
+Simple start for MariaDB:
+```bash
+sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sudo systemctl start mariadb.service
+```
+
+### Add Configuration Information:
+```bash
+cp app/cfg/config.sample.json app/cfg/config.json
+```
+and edit in the appropriate values to `app/cfg/config.json`.
+
+### Initialize and Start `flask`.
+```bash
 flask db init
 flask db migrate -m "initial migration"
 flask db upgrade
 ```
 
-### Gunicorn, NGINX, and Supervisor configuration
+### Populate DB
+After creating the flask MySQL DB run the following commands to populate it:
+```bash
+python vote_loader.py
+python bill_loader.py
+python budget_loader.py
+```
+
+## Webapp Entrypoint
+
+To launch the webapp:
+```bash
+gunicorn -b localhost:5000 -w 4 govstat:app
+```
+
+- Host Name (`localhost`)
+- Port Number (`5000`)
+- Number of Threads/Handlers (`4`)
+- Flask app and entrypoint (`govstat:app`)
+
+## Gunicorn, NGINX, and Supervisor Configuration
+
 See above to run gunicorn.\
 Specify NGINX port permissions, and forwarding for HTTP and HTTPS requests at `/etc/nginx/sites-enabled/`\
-Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`
+Configure supervisor to run gunicorn app at `/etc/supervisor/conf.d/`\
 Create SSL certificates
 
-### Data sources
-Some notes on where the data for this webapp comes from.\
-Congress data on bills and votes comes from scrapers in the [congress repo](https://github.com/unitedstates/congress)\
-Budget data comes from excel files published by the White House [Office of Management and Budget (OMB)](https://www.whitehouse.gov/omb/historical-tables/)\
-
-### Directory Structure
+## Directory Structure
 
 ```
 congress/
@@ -52,7 +102,7 @@ congress/
         +--	Bills.py
         +-- Budget.py
         +-- config.py
-        +-- __init.py__		[App instantiation, database instantiation, import functions for data loading and retrieval.]
+        +-- __init__.py		[App instantiation, database instantiation, import functions for data loading and retrieval.]
         +-- models.py
         +-- routes.py
         +--	Votes.py
