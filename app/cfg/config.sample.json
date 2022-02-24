@@ -1,6 +1,5 @@
 {
     "SQLALCHEMY_DATABASE_URI": "mariadb+mariadbconnector://user:password@localhost:5000/table_name",
     "SECRET_KEY": "",
-    "CONGRESS_PATH": "/home/user/github/unitedstates/congress",
     "GOVSTAT_PATH": "/home/user/github/stevesdawg/govstat"
 }

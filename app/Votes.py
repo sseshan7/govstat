@@ -6,7 +6,7 @@ import app
 from app import db
 from app.models import Bill, BillType, Representative, Vote
 
-VOTES_PATH = os.path.join(app.CONGRESS_PATH, "data")
+VOTES_PATH = os.path.join(app.GOVSTAT_PATH, "data")
 LATEST_SESSION = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
 VOTES_PATH = os.path.join(VOTES_PATH, LATEST_SESSION, "votes")
 LATEST_YEAR = sorted([x for x in os.listdir(VOTES_PATH) if x.isdigit()])[-1]
