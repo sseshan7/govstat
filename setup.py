@@ -20,6 +20,7 @@ setup(
         "pandas",
         "pymysql",
         "requests",
+        "united_states_congress",
         "xlrd",
     ],
     extras_require={

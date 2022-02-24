@@ -4,12 +4,12 @@ import os
 from flask import jsonify, render_template, request
 
 import app.Budget as Budget
-from app import CONGRESS_PATH, app
+from app import GOVSTAT_PATH, app
 from app.Bills import Bills
 from app.Votes import Votes
 
 # globals
-BILLS_PATH = os.path.join(CONGRESS_PATH, "data", "116", "bills")
+BILLS_PATH = os.path.join(GOVSTAT_PATH, "data", "116", "bills")
 JSON_NAME = "data.json"
 
 # BILLS SCRAPER

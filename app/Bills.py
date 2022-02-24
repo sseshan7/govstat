@@ -9,7 +9,7 @@ import app
 from app import db
 from app.models import Bill, BillStatus, BillType, LegislativeSubjects, Representative
 
-BILLS_PATH = os.path.join(app.CONGRESS_PATH, "data")
+BILLS_PATH = os.path.join(app.GOVSTAT_PATH, "data")
 LATEST_SESSION = sorted([x for x in os.listdir(BILLS_PATH) if x.isdigit()])[-1]
 BILLS_PATH = os.path.join(BILLS_PATH, LATEST_SESSION, "bills")
 XML_FILE = "fdsys_billstatus.xml"
