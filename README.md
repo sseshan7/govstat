@@ -30,7 +30,7 @@ To obtain congress data, do the following:
 
 From the root of this repo, run:
 ```bash
-usc-run votes --congress=XXX --session=YYYY --force=True
+usc-run votes --congress=XXX --session=YYYY --force=True --fast=True
 usc-run govinfo --bulkdata=BILLSTATUS --congress=XXX
 usc-run bills
 ```
@@ -38,7 +38,7 @@ where `XXX` is the Congress number, and `YYYY` is the session number.
 
 For example,
 ```bash
-usc-run votes --congress=117 --session=2022 --force=True
+usc-run votes --congress=117 --session=2022 --force=True --fast=True
 usc-run govinfo --bulkdata=BILLSTATUS --congress=117
 usc-run bills
 ```
