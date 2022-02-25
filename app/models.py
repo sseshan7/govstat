@@ -44,6 +44,8 @@ bill_to_bills = db.Table(
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chamber = db.Column(db.String(1))
+    year = db.Column(db.Integer)
+    congress = db.Column(db.Integer)
     vote_num = db.Column(db.Integer, index=True)
     date = db.Column(db.DateTime)
     vote_result = db.Column(db.String(64))

@@ -29,16 +29,23 @@ class Votes:
 
             c = data["chamber"]
             n = data["number"]
+            cong = data["congress"]
+            d = data["date"]
+            d = d[:19]  # strip off the timezone offset
+            dt = datetime.strptime(d, "%Y-%m-%dT%H:%M:%S").date()
+            y = dt.year
 
-            entries = (
-                Vote.query.filter(Vote.vote_num == n).filter(Vote.chamber == c).all()
-            )
+            entries = Vote.query.filter(
+                (Vote.vote_num == n)
+                & (Vote.chamber == c)
+                & (Vote.year == y)
+                & (Vote.congress == cong)
+            ).all()
             if entries:
                 # If vote already exists in the database, skip adding it
                 continue
 
             q = data["question"]
-            d = data["date"]
             r = data["result"]
             req = data["requires"]
             t = data["type"]
@@ -61,15 +68,14 @@ class Votes:
             except KeyError:
                 abstains = []
 
-            d = d[:19]  # strip off the timezone offset
-            dt = datetime.strptime(d, "%Y-%m-%dT%H:%M:%S").date()
-
             num_nays = len(nays)
             num_yeas = len(yeas)
             num_abstains = len(abstains)
 
             v = Vote(
                 chamber=c,
+                year=y,
+                congress=cong,
                 vote_num=n,
                 date=dt,
                 vote_result=r if len(r) <= 64 else r[:64],
@@ -184,14 +190,11 @@ class Votes:
 
             try:
                 bill = data["bill"]
-                bill_q = (
-                    Bill.query.filter(
-                        Bill.bill_type == getattr(BillType, bill["type"].upper())
-                    )
-                    .filter(Bill.bill_num == bill["number"])
-                    .filter(Bill.congress == bill["congress"])
-                )
-                bills = bill_q.all()
+                bills = Bill.query.filter(
+                    (Bill.bill_type == getattr(BillType, bill["type"].upper()))
+                    & (Bill.bill_num == bill["number"])
+                    & (Bill.congress == bill["congress"])
+                ).all()
                 if len(bills) == 1:
                     # if bill being voted on exists in the database (TYPE, NUM, CONGRESS),
                     # then link the bill to this vote
