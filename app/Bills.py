@@ -75,12 +75,11 @@ class Bills:
                         # Precondition: the bill has been fully loaded.
                         # Postcondition: the following params have been updated:
                         # active, awaiting_sig, enacted, vetoed, status objects
-                        bill_q = (
-                            Bill.query.filter(Bill.bill_type == db_bill_type)
-                            .filter(Bill.bill_num == num)
-                            .filter(Bill.congress == cong)
-                        )
-                        bills = bill_q.all()
+                        bills = Bill.query.filter(
+                            (Bill.bill_type == db_bill_type)
+                            & (Bill.bill_num == num)
+                            & (Bill.congress == cong)
+                        ).all()
                         if not bills:
                             # bill does not exist, call the fully_populate function
                             Bills.fully_populate_bill(
@@ -147,12 +146,11 @@ class Bills:
         intro_date = jsondata["introduced_at"]
         intro_date = datetime.strptime(intro_date, "%Y-%m-%d").date()
 
-        bill_q = (
-            Bill.query.filter(Bill.bill_type == bill_type)
-            .filter(Bill.bill_num == num)
-            .filter(Bill.congress == cong)
-        )
-        bills = bill_q.all()
+        bills = Bill.query.filter(
+            (Bill.bill_type == bill_type)
+            & (Bill.bill_num == num)
+            & (Bill.congress == cong)
+        ).all()
 
         if bills:
             # if the bill has been instantiated,
@@ -286,10 +284,10 @@ class Bills:
             else:
                 # Bill originated in the Senate
                 # Search for reps using state + party lastname
-                rep_q = (
-                    Representative.query.filter(Representative.state == state)
-                    .filter(Representative.party == party)
-                    .filter(func.lower(Representative.lname) == lname.lower())
+                rep_q = Representative.query.filter(
+                    (Representative.state == state)
+                    & (Representative.party == party)
+                    & (func.lower(Representative.lname) == lname.lower())
                 )
             reps = rep_q.all()
             if reps:
@@ -360,10 +358,10 @@ class Bills:
             else:
                 # Bill originated in the Senate
                 # Search for reps using state + party lastname
-                rep_q = (
-                    Representative.query.filter(Representative.state == state)
-                    .filter(Representative.party == party)
-                    .filter(func.lower(Representative.lname) == lname.lower())
+                rep_q = Representative.query.filter(
+                    (Representative.state == state)
+                    & (Representative.party == party)
+                    & (func.lower(Representative.lname) == lname.lower())
                 )
             reps = rep_q.all()
             if reps:
