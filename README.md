@@ -12,7 +12,7 @@ Install locally using `pip install .`
 ## Dependencies:
 
 - [python](https://www.python.org/downloads/)
-- [unitedstates/congress](https://github.com/unitedstates/congress)
+- [unitedstates/congress](https://github.com/unitedstates/congress#setting-up)
 - [git-lfs](https://git-lfs.github.com/)
 - A MySQL server
   - e.g. [MariaDB](https://mariadb.org/download)
