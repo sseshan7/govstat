@@ -22,6 +22,8 @@ setup(
         "requests",
         "united_states_congress",
         "xlrd",
+        "requests",
+        "beautifulsoup4",
     ],
     extras_require={
         "dev": ["pre-commit"],
