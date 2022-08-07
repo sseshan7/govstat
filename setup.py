@@ -9,6 +9,7 @@ setup(
     zip_safe=False,
     packages=["app"],
     install_requires=[
+        "beautifulsoup4",
         "cryptography",
         "flask",
         "flask_migrate",
@@ -22,8 +23,6 @@ setup(
         "requests",
         "united_states_congress",
         "xlrd",
-        "requests",
-        "beautifulsoup4",
     ],
     extras_require={
         "dev": ["pre-commit"],
